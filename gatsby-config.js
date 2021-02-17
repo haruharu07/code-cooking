@@ -7,7 +7,7 @@ module.exports = {
             name: `Haru Nakama`,
         },
         description: `JavaScriptのコードレシピです。実務でよく使用するJavaScriptの基本的な記述を、ゆるゆるぐつぐつお届けします。`,
-        siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
+        siteUrl: `https://code-cooking.netlify.app/`,
         categories: [
             {
                 slug: "recipe",
@@ -107,5 +107,6 @@ module.exports = {
         },
         `gatsby-plugin-react-helmet`,
         `gatsby-plugin-twitter`,
+        `gatsby-plugin-styled-components`,
     ],
 }
