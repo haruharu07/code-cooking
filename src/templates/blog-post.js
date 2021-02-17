@@ -1,107 +1,138 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
+import styled from 'styled-components'
 
-import Bio from "../components/bio"
+import responsive from '../styles/responsive'
+import markdownStyle from "../styles/markdown"
+
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Hero from "../components/hero"
+import LatestPosts from "../components/latest-posts"
+import twemoji from "twemoji"
 
 const BlogPostTemplate = ({ data, location }) => {
-  const post = data.markdownRemark
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const { previous, next } = data
+    const siteTitle = data.site.siteMetadata?.title || `Title`
+    const latestPosts = data.latest.nodes
+    const post = data.markdownRemark
+    const { title, description, category } = post.frontmatter
 
-  return (
-    <Layout location={location} title={siteTitle}>
-      <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
-      />
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
-        <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
-        </header>
-        <section
-          dangerouslySetInnerHTML={{ __html: post.html }}
-          itemProp="articleBody"
+    const emoji = twemoji.parse(post.frontmatter.emoji || "😎", {
+        folder: "svg",
+        ext: ".svg"
+    });
+
+    const latestEmoji = twemoji.parse( "🥘", {
+        folder: "svg",
+        ext: ".svg"
+    });
+
+    return (
+        <Layout location={location} title={siteTitle}>
+        <SEO
+            title={title}
+            description={description || post.excerpt}
         />
-        <hr />
-        <footer>
-          <Bio />
-        </footer>
-      </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
-              </Link>
-            )}
-          </li>
-        </ul>
-      </nav>
-    </Layout>
-  )
+
+            <Hero emoji={emoji} post={post} slug={category} />
+            <ContentWrapper>
+                <ContentMain>
+                    <PostContent dangerouslySetInnerHTML={{ __html: post.html }} />
+                    <hr className="end-point" />
+                </ContentMain>
+                <ContentWidget>
+                    <WidgetTitle><WidgetIcon dangerouslySetInnerHTML={{ __html: latestEmoji }} />さいきんのレシピ</WidgetTitle>
+                    <LatestPosts latestPosts={latestPosts} location={location} />
+                </ContentWidget>
+            </ContentWrapper>
+        </Layout>
+    )
 }
 
 export default BlogPostTemplate
 
+const ContentWrapper = styled.div`
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    ${responsive.xlg} {
+        padding: 0 30px;
+    }
+    ${responsive.md} {
+        padding: 0 20px;
+    }
+`
+
+const ContentMain = styled.div`
+    margin-bottom: 70px;
+    ${markdownStyle}
+    ${responsive.sm} {
+        margin-bottom: 60px;
+    }
+`
+
+const PostContent = styled.div``
+
+const ContentWidget = styled.div`
+    .item-link {
+        display: flex;
+        align-items: center;
+        border-left: 4px solid ${props => props.theme.colors.accent};
+        background-color: #fffdfd;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(113, 51, 32, 0.12);
+    }
+`
+
+const WidgetTitle = styled.h2`
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 40px;
+    ${responsive.sm} {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+`
+
+const WidgetIcon = styled.span`
+    display: block;
+    width: 60px;
+    margin: 0 auto 20px;
+`
+
 export const pageQuery = graphql`
-  query BlogPostBySlug(
-    $id: String!
-    $previousPostId: String
-    $nextPostId: String
-  ) {
-    site {
-      siteMetadata {
-        title
-      }
+    query BlogPostBySlug(
+        $id: String!
+    ) {
+        site {
+            siteMetadata {
+                title
+            }
+        }
+        latest: allMarkdownRemark (filter: {frontmatter: {category: {eq: "recipe"}}}, sort: { fields: [frontmatter___date], order: DESC }, limit: 2) {
+            nodes {
+                fields {
+                    slug
+                }
+                frontmatter {
+                    title
+                    emoji
+                    description
+                }
+            }
+        }
+        markdownRemark(id: { eq: $id }) {
+            id
+            excerpt(pruneLength: 160)
+            html
+            frontmatter {
+                title
+                date(formatString: "YYYY.MM.DD")
+                emoji
+                description
+                category
+            }
+        }
     }
-    markdownRemark(id: { eq: $id }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        description
-      }
-    }
-    previous: markdownRemark(id: { eq: $previousPostId }) {
-      fields {
-        slug
-      }
-      frontmatter {
-        title
-      }
-    }
-    next: markdownRemark(id: { eq: $nextPostId }) {
-      fields {
-        slug
-      }
-      frontmatter {
-        title
-      }
-    }
-  }
 `

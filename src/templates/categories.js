@@ -10,33 +10,29 @@ import Container from "../components/container"
 import PostCard from "../components/post-card"
 import CategoryMenu from "../components/category-menu"
 
-const BlogIndex = ({ data, location }) => {
+const CategoryTemplate = ({ data, location }) => {
 
     const siteTitle = data.site.siteMetadata?.title || `Title`
-    const recipePosts = data.recipe.nodes
+    const basicPosts = data.basic.nodes
 
     return (
         <Layout location={location} title={siteTitle}>
-        <SEO title="" />
+        <SEO title="きほん編" description="JavaScriptのコードレシピ「きほん編」です。" />
             <Container>
                 <CategoryMenu location={location} />
-                <RecipeItem>
-                    <ItemGrid>
-                        {recipePosts.map(post => {
-                            return (
-                                <PostCard post={post} />
-                            )
-                        })}
-                    </ItemGrid>
-                </RecipeItem>
+                <ItemGrid>
+                    {basicPosts.map(post => {
+                        return (
+                            <PostCard post={post} />
+                        )
+                    })}
+                </ItemGrid>
             </Container>
         </Layout>
     )
 }
 
-export default BlogIndex
-
-const RecipeItem = styled.div``
+export default CategoryTemplate
 
 const ItemGrid = styled.div`
     display: grid;
@@ -44,7 +40,7 @@ const ItemGrid = styled.div`
     gap: 30px;
     .item-link {
         display: block;
-        background-color: #F76D43;
+        background-color: #36C1F7;
         border-radius: 8px;
         padding: 32px 20px 30px;
         color: #fff;
@@ -64,7 +60,7 @@ export const pageQuery = graphql`
                 title
             }
         }
-        recipe: allMarkdownRemark(filter: {frontmatter: {category: {eq: "recipe"}}}, sort: {order: DESC, fields: frontmatter___date}) {
+        basic: allMarkdownRemark(filter: {frontmatter: {category: {eq: "basic"}}}, sort: {order: DESC, fields: frontmatter___date}) {
             nodes {
                 fields {
                     slug

@@ -1,36 +1,53 @@
 import React from "react"
-import { Link } from "gatsby"
+import styled, { ThemeProvider } from "styled-components"
 
-const Layout = ({ location, title, children }) => {
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
-  let header
+import GlobalStyle from '../styles/global'
+import theme from '../styles/theme'
+import responsive from '../styles/responsive'
 
-  if (isRootPath) {
-    header = (
-      <h1 className="main-heading">
-        <Link to="/">{title}</Link>
-      </h1>
+import "prismjs/themes/prism-tomorrow.css"
+import "prismjs/plugins/line-numbers/prism-line-numbers.css"
+
+import Header from "./header"
+import Footer from "./footer"
+
+const Layout = ({ location, children }) => {
+
+    const rootPath = `${__PATH_PREFIX__}/`
+
+    let content;
+    if(location.pathname === rootPath || location.pathname === "/basics") {
+        content = <ContentHome><main>{children}</main></ContentHome>
+    } else {
+        content = <ContentPage><main>{children}</main></ContentPage>
+    }
+
+    return (
+        <ThemeProvider theme={theme}>
+        <>
+        <GlobalStyle />
+        <Header location={location}/>
+        {content}
+        <Footer />
+        </>
+        </ThemeProvider>
     )
-  } else {
-    header = (
-      <Link className="header-link-home" to="/">
-        {title}
-      </Link>
-    )
-  }
-
-  return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
-      <header className="global-header">{header}</header>
-      <main>{children}</main>
-      <footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
-      </footer>
-    </div>
-  )
 }
 
 export default Layout
+
+const ContentHome = styled.div`
+    min-height: 90vh;
+    margin: 50px 0 100px;
+    ${responsive.md} {
+            margin: 35px 0 100px;
+    }
+`
+
+const ContentPage = styled.div`
+    min-height: 90vh;
+    margin: 50px 0 120px;
+    ${responsive.md} {
+            margin: 0 0 100px;
+    }
+`
