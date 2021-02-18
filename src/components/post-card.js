@@ -26,8 +26,8 @@ const Hero = styled.div`
     height: 80px;
     margin: 0 auto 18px;
     img {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
     }
 `
 

@@ -76,8 +76,8 @@ const HeroImage = styled.div`
     height: 120px;
     margin: 0 auto 20px;
     img {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
     }
     ${responsive.sm} {
         width: 80px;

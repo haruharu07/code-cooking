@@ -37,15 +37,15 @@ const Layout = ({ location, children }) => {
 export default Layout
 
 const ContentHome = styled.div`
-    min-height: 90vh;
-    margin: 50px 0 100px;
+    min-height: 80vh;
+    margin: 50px 0 220px;
     ${responsive.md} {
-            margin: 35px 0 100px;
+            margin: 35px 0 150px;
     }
 `
 
 const ContentPage = styled.div`
-    min-height: 90vh;
+    min-height: 80vh;
     margin: 50px 0 120px;
     ${responsive.md} {
             margin: 0 0 100px;
