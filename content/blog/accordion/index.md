@@ -8,6 +8,9 @@ description: 開閉式でコンテンツを表示・非表示できるアコー�
 
 開閉式でコンテンツを表示・非表示できるアコーディオンは、見た目もよく、ユーザーも直感的に操作がしやすいです。「よくある質問」のQ&Aなどでつかわれる印象がありますね。
 
+[[note | ※NOTE]]
+| 今回紹介する __nextElementSibling__ というプロパティは、IEのバージョンによってはサポートがされていないようなので（2021年3月12日現在）、記事の後半に、IEにも対応したJavascriptのコードとプレビューを載せています。HTMLとCSSの記述はまったく一緒です。
+
 ## コードとプレビュー
 
 [[frame]]
@@ -222,3 +225,8 @@ for (let i = 0; i < accTitle.length; i++) {
 👆 ```toggle``` をつかって、タイトル部分に ```active``` 、コンテンツ部分に ```open``` を設置したらOK!
 
 以上です、おつかれさまでした👏👏👏
+
+## コードとプレビュー（IE対応）
+
+[[frame]]
+| <iframe src="https://codesandbox.io/embed/accordion-ie-70384?fontsize=14&hidenavigation=1&theme=dark"></iframe>
