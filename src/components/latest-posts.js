@@ -32,9 +32,6 @@ const RelatedPosts = ({ latestPosts, location }) => {
                         }
                     })}
                 </ItemGrid>
-                {/* <More>
-                    <Link to="/">すべてのレシピ</Link>
-                </More> */}
                 <More>
                     <Link to="/" className="more-recipe">すべてのレシピ</Link>
                     <Link to="/basics" className="more-basic">きほん</Link>
@@ -73,7 +70,7 @@ const More = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 200px;
+        width: 100%;
         margin: 0 auto;
         font-weight: 700;
         background-color: #fffdfd;
