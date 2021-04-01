@@ -9,6 +9,9 @@ description: ウェブサイト制作の現場でよく実装する機能のひ�
 ウェブサイト制作の現場でよく実装する機能のひとつが「タブ切り替え」です。記述自体はそこまで複雑ではないのですが、すこし工夫が必要だったりもします。
 はじめのうちはコードを書きながら覚えていって、内容を理解したあとはつかいまわしちゃいましょう！
 
+[[note | NOTE]]
+| 記事の後半に、IEにも対応したJavaScriptのコードとプレビューを載せています。HTMLとCSSの記述はまったく一緒です。（IEの場合は、 __querySelectorAll__ で返ってくる __NodeList__ を配列に変換しておきたい）
+
 ## コードとプレビュー
 
 [[frame]]
@@ -295,3 +298,8 @@ for (let i = 0; i < tabMenu.length; i++) {
 👆 クラスを追加して、メニューとコンテンツを表示させればOK！
 
 以上です、おつかれさまでした👏👏👏
+
+## コードとプレビュー（IE対応）
+
+[[frame]]
+| <iframe src="https://codesandbox.io/embed/tab-switching-for-ie-fne8n?fontsize=14&hidenavigation=1&theme=dark"></iframe>
