@@ -2,7 +2,7 @@ require("dotenv").config();
 
 module.exports = {
     siteMetadata: {
-        title: `Code Cooking`,
+        title: `コードクッキング - JavaScriptのコードレシピ`,
         author: {
             name: `Haru Nakama`,
         },
