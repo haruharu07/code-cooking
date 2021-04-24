@@ -8,9 +8,6 @@ description: 開閉式でコンテンツを表示・非表示できるアコー�
 
 開閉式でコンテンツを表示・非表示できるアコーディオンは、見た目もよく、ユーザーも直感的に操作がしやすいです。「よくある質問」のQ&Aなどでつかわれる印象がありますね。
 
-[[note | NOTE]]
-| 今回紹介する __nextElementSibling__ というプロパティは、IEのバージョンによってはサポートがされていないようなので（※2021年3月12日現在）、記事の後半に、IEにも対応したJavaScriptのコードとプレビューを載せています。HTMLとCSSの記述はまったく一緒です。
-
 ## コードとプレビュー
 
 [[frame]]
@@ -150,9 +147,9 @@ description: 開閉式でコンテンツを表示・非表示できるアコー�
 const accTitle = document.querySelectorAll(".js-acc-title");
 
 for (let i = 0; i < accTitle.length; i++) {
-  const accText = accTitle[i].nextElementSibling;
   accTitle[i].addEventListener("click", function () {
-    accTitle[i].classList.toggle("active");
+    const accText = this.nextElementSibling;
+    this.classList.toggle("active");
     accText.classList.toggle("open");
   });
 }
@@ -186,18 +183,6 @@ for (let i = 0; i < accTitle.length; i++) {
 
 ```javascript:title=index.js
 for (let i = 0; i < accTitle.length; i++) {
-    const accText = accTitle[i].nextElementSibling;
-}
-```
-
-[[tech | 兄弟要素の取得]]
-| JavaScriptのプロパティ ***nextElementSibling*** をつかうと、隣り合った要素を取得することができます。
-
-今回でいうと、タイトル部分のdtタグに隣接したddタグを取得しています。
-
-```javascript:title=index.js
-for (let i = 0; i < accTitle.length; i++) {
-  const accText = accTitle[i].nextElementSibling;
 
   accTitle[i].addEventListener("click", function () {
       //ここに処理を書いていく
@@ -212,21 +197,27 @@ for (let i = 0; i < accTitle.length; i++) {
 
 ```javascript:title=index.js
 for (let i = 0; i < accTitle.length; i++) {
-  const accText = accTitle[i].nextElementSibling;
-
   accTitle[i].addEventListener("click", function () {
-      accTitle[i].classList.toggle("active");
-      accText.classList.toggle("open");
+    const accText = this.nextElementSibling;
   });
+}
+```
 
+[[tech | 兄弟要素の取得]]
+| JavaScriptのプロパティ ***nextElementSibling*** をつかうと、隣り合った要素を取得することができます。
+
+今回でいうと、タイトル部分のdtタグに隣接したddタグを取得しています。
+
+```javascript:title=index.js
+for (let i = 0; i < accTitle.length; i++) {
+  accTitle[i].addEventListener("click", function () {
+    const accText = this.nextElementSibling;
+    this.classList.toggle("active");
+    accText.classList.toggle("open");
+  });
 }
 ```
 
 👆 ```toggle``` をつかって、タイトル部分に ```active``` 、コンテンツ部分に ```open``` を設置したらOK!
 
 以上です、おつかれさまでした👏👏👏
-
-## コードとプレビュー（IE対応）
-
-[[frame]]
-| <iframe src="https://codesandbox.io/embed/accordion-ie-70384?fontsize=14&hidenavigation=1&theme=dark"></iframe>
